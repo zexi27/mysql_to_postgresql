@@ -13,24 +13,25 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class PropertieUtils {
 
-	private static Map<String,String> paramMap = new HashMap<String, String>();
+	private static Map<String, String> paramMap = new HashMap();
 
-	public static void main(String[] args)  {
+	public static void main(String[] args) {
 		System.out.println(resolveProperties());
 	}
 
-	public static Map<String,String> resolveProperties() {
-		String paramLocation = "/Users/liqun/IdeaProjects/mysql_to_postgresql/src/main/resources/application.properties";
+	public static Map<String, String> resolveProperties() {
+		String rootLocation = System.getProperty("user.dir");
+		String paramLocation = rootLocation + "/src/main/resources/application.properties";
 		try (BufferedReader reader = new BufferedReader(new FileReader(paramLocation))) {
 			String line;
-			while ((line = reader.readLine()) != null){
-				if (StringUtils.isNotEmpty(line)){
+			while ((line = reader.readLine()) != null) {
+				if (StringUtils.isNotEmpty(line)) {
 					String[] split = line.split("=");
 					String key = split[0];
 					key = key.trim();
 					String value = split[1];
 					value = value.trim();
-					if (StringUtils.isEmpty(value)){
+					if (StringUtils.isEmpty(value)) {
 						throw new RuntimeException("配置项:" + key + "不能为空");
 					}
 					paramMap.put(key, value);
